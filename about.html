@@ -15,6 +15,66 @@
       <li>Tehnologi digitale</li>
       <li>Jocuri video</li>
       <li>Citit</li>
+
+    <section id="login">
+        <h2>Autentificare</h2>
+        <form id="loginForm" aria-label="Formular autentificare">
+            <label for="username">Utilizator</label>
+            <input id="username" name="username" type="text" required>
+
+            <label for="password">Parolă</label>
+            <input id="password" name="password" type="password" required>
+
+            <button type="submit">Loghează-te</button>
+            <button type="button" id="logoutBtn" hidden>Deconectare</button>
+        </form>
+
+        <div id="loginMessage" role="status" aria-live="polite"></div>
+    </section>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const msg = document.getElementById('loginMessage');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        function updateUI(user) {
+            if (user) {
+                msg.textContent = `Autentificat ca ${user}.`;
+                logoutBtn.hidden = false;
+                form.querySelector('button[type="submit"]').hidden = true;
+                form.querySelectorAll('input').forEach(i => i.disabled = true);
+            } else {
+                msg.textContent = '';
+                logoutBtn.hidden = true;
+                form.querySelector('button[type="submit"]').hidden = false;
+                form.querySelectorAll('input').forEach(i => i.disabled = false);
+            }
+        }
+
+        // Inițializează din localStorage
+        const savedUser = localStorage.getItem('pp_user');
+        updateUI(savedUser);
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = form.username.value.trim();
+            const pass = form.password.value;
+            if (!user || !pass) {
+                msg.textContent = 'Completează toate câmpurile.';
+                return;
+            }
+            // Exemplu: validare locală simulată (NU folosi în producție)
+            // Acceptă orice combinație pentru demo, păstrează doar numele în localStorage
+            localStorage.setItem('pp_user', user);
+            updateUI(user);
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('pp_user');
+            form.reset();
+            updateUI(null);
+        });
+    </script>
     
 </body>
 </html>
