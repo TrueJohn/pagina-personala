@@ -13,3 +13,7 @@ ul {
   list-style-type: square;
   margin-top: 20px;
 }
+/* Added styles for hobby list items */
+ul li {
+  margin-bottom: 10px;
+}
